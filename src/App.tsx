@@ -33,7 +33,7 @@ function App() {
   ? [...users].sort((a, b) => {
     return a.location.country.localeCompare(b.location.country)
   })
-  : users
+  : users 
 
 
   return (
