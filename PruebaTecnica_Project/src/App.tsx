@@ -10,7 +10,7 @@ function App() {
   const [sortByCountry, setSortByCountry] = useState(false)
 
   const toggleColors = () => {
-    setShowColors(!showColors)
+    setShowColors(!showColors) 
   }
 
   const toggleSortByCountry = () => {
