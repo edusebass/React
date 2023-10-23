@@ -64,7 +64,7 @@ function App() {
 
   return (
     <div className='App'>
-      <h1>Prueba Tecnica</h1>
+      <h1>API PERSON</h1>
       <header>
         <button onClick={toggleColors}>
           Colorear files
