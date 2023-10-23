@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 import { UserList } from './components/UserList'
@@ -8,6 +8,8 @@ function App() {
   const [users, setUsers] = useState<User[]>([])
   const [showColors, setShowColors] = useState(false)
   const [sortByCountry, setSortByCountry] = useState(false)
+  const originalUsers = useRef<User[]>([])
+  const [filterCountry, setFilterCountry] = useState<string | null>(null)
 
   const toggleColors = () => {
     setShowColors(!showColors) 
@@ -17,9 +19,14 @@ function App() {
     setSortByCountry(prevState => !prevState)
   }
 
+  const handleReset = () => {
+    setUsers(originalUsers.current);
+  }
+
   const handleDelete = (email: string) => {
     const filteredUsers = users.filter((user) => user.email !== email) 
     setUsers(filteredUsers)
+    
   }
 
 
@@ -28,17 +35,24 @@ function App() {
       .then(async res => await res.json())
       .then(res => {
         setUsers(res.results)
+        originalUsers.current = res.results
       })
       .catch(err => {
         console.error(err)
       })
     }, [])
   
+  const filteredUsers = filterCountry
+  ? users.filter((user => {
+    return user.location.country.toLowerCase().includes(filterCountry.toLowerCase())
+  }))
+  : users
+    
   const sortedUsers = sortByCountry
-  ? [...users].sort((a, b) => {
+  ? [...filteredUsers ].sort((a, b) => {
     return a.location.country.localeCompare(b.location.country)
-  })
-  : users 
+  })  
+  : filteredUsers 
 
 
   return (
@@ -52,6 +66,12 @@ function App() {
         <button onClick={toggleSortByCountry}>
           {sortByCountry ? 'No ordenar por pais' : 'Ordenar por pais'}
         </button>
+        <button onClick={handleReset}>
+          Resetear estado
+        </button>
+        <input type="text" placeholder='Filtra por pais' onChange={(e) => {
+          setFilterCountry(e.target.value)
+        }} />
       </header>
 
       <main>

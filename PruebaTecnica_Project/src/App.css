@@ -3,6 +3,26 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  
+}
+
+button{
+  padding: 10px;
+  margin: 2px;
+  margin-bottom: 15px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+button:hover{
+  background-color: aliceblue ;
+  color: black;
+}
+
+input{
+  padding: 8px;
+  margin-left: 10px;
+  border: none;
 }
 
