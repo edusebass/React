@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 
 import { UserList } from './components/UserList'
@@ -42,17 +42,24 @@ function App() {
       })
     }, [])
   
-  const filteredUsers = filterCountry
-  ? users.filter((user => {
-    return user.location.country.toLowerCase().includes(filterCountry.toLowerCase())
-  }))
+  const filteredUsers = useMemo(() =>{
+    return filterCountry
+      ? users.filter(user => {
+        return user.location.country.toLowerCase().includes(filterCountry.toLowerCase())
+      })
   : users
+  }, [users, filterCountry]);
+  
     
-  const sortedUsers = sortByCountry
-  ? [...filteredUsers ].sort((a, b) => {
-    return a.location.country.localeCompare(b.location.country)
-  })  
-  : filteredUsers 
+  const sortedUsers = useMemo(() => {
+    return sortByCountry
+      ? [...filteredUsers].sort((a, b) => {
+          return a.location.country.localeCompare(b.location.country);
+        })
+      : filteredUsers
+  }, [filteredUsers, sortByCountry]);
+  
+  
 
 
   return (
